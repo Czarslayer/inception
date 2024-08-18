@@ -1,7 +1,4 @@
 #!/bin/bash
-
-# Start PHP-FPM
+echo "updated"
 service php7.4-fpm start
-
-# Start Nginx
 nginx -g 'daemon off;'

@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye
 
 # Install MariaDB
 RUN apt-get update && \
@@ -18,4 +18,4 @@ RUN chmod +x /usr/local/bin/init-db.sh
 EXPOSE 3306
 
 # Start MariaDB using the init-db.sh script
-CMD ["/usr/local/bin/init-db.sh"]
+CMD ["sh","/usr/local/bin/init-db.sh"]
