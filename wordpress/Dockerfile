@@ -1,33 +1,21 @@
 FROM debian:bullseye-slim
 
 # Install necessary packages
-RUN apt-get update && apt-get upgrade && apt-get install -y \
-    nginx \
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     php7.4 \
     php-fpm \
     php-mysql \
     wget \
     unzip
 
-# Download and set up WordPress
+# RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
+# RUN chmod +x wp-cli.phar
+
+# RUN mv wp-cli.phar /usr/local/bin/wp
 # Copy startup script
 COPY ./start.sh /start.sh
 RUN chmod 777 /start.sh
-
-WORKDIR /var/www/html
-
-RUN wget https://wordpress.org/latest.zip && \
-    unzip latest.zip && \
-    rm latest.zip && \
-    mv wordpress/* . && \
-    rmdir wordpress && \
-    chown -R www-data:www-data .
-
-# Copy configuration files
-COPY default.conf /etc/nginx/conf.d/default.conf
-# COPY wp-config.php /var/www/html/wp-config.php
-
 # Expose the default HTTP port
 EXPOSE 80
 
