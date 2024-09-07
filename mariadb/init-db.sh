@@ -4,9 +4,9 @@
 service mariadb start
 
 # Wait for MariaDB to be ready
-# while ! mysqladmin ping -h localhost --silent; do
-    echo "Waiting for MariaDB to be ready..."
-    sleep 5
+#  while ! mysqladmin ping -h localhost --silent; do
+#     echo "Waiting for MariaDB to be ready..."
+#     sleep 5
 # done
 
 db_name="walo"
