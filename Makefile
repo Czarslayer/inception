@@ -1,15 +1,15 @@
 all: stop build run
 # Build the containers and set up the network and volume
 build:
-	docker build --no-cache -t mariadb ./mariadb/
-	docker build --no-cache -t wordpress ./wordpress/
-	docker build --no-cache -t nginx ./nginx/
-	# docker build -t mariadb ./mariadb/
-	# docker build -t wordpress ./wordpress/
-	# docker build -t nginx ./nginx/
+	# docker build --no-cache -t mariadb ./mariadb/
+	# docker build --no-cache -t wordpress ./wordpress/
+	# docker build --no-cache -t nginx ./nginx/
+	docker build -t mariadb ./mariadb/
+	docker build -t wordpress ./wordpress/
+	docker build -t nginx ./nginx/
 	-docker network create wp_bridge
-	-docker volume create wpvolume
-	-docker volume create dbvolume
+	# -docker volume create wpvolume
+	# -docker volume create dbvolume
 
 # Run the containers
 run:
@@ -23,8 +23,8 @@ stop:
 	-docker stop wpname
 	-docker stop nginx
 	-docker network rm wp_bridge
-	-docker volume rm wpvolume
-	-docker volume rm dbvolume
+	# -docker volume rm wpvolume
+	# -docker volume rm dbvolume
 
 # Clean up the images
 clean:
