@@ -18,6 +18,9 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 COPY ./start.sh /start.sh
 RUN chmod 777 /start.sh
 
+# copy theme file to container
+COPY ./idea-flow.1.6.zip /idea-flow.1.6.zip
+
 # Expose the default HTTP port
 EXPOSE 9000
 

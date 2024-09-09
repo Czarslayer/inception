@@ -13,7 +13,7 @@ wp core install --url=localhost --title=Wordpress --admin_user=admin --admin_pas
 
 # create a user
 wp user create --allow-root morad mauradabahani@gmail.com --user_pass=password --user_url=www.moradtest.com --allow-root
-
+wp theme install /idea-flow.1.6.zip --activate --allow-root
 # Create PHP runtime directory with correct permissions
 mkdir -p /run/php && chown -R www-data:www-data /run/php
 
