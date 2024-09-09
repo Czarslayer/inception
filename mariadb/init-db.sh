@@ -1,6 +1,14 @@
 #!/bin/bash
 
 # Start MariaDB service
+mkdir -p /var/lib/mysql
+chown -R mysql:mysql /var/lib/mysql
+chmod 755 /var/lib/mysql
+
+
+mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+
+
 service mariadb start
 
 # Wait for MariaDB to be ready
@@ -8,6 +16,7 @@ service mariadb start
 #     echo "Waiting for MariaDB to be ready..."
 #     sleep 5
 # done
+
 
 db_name="walo"
 db_user="walo"

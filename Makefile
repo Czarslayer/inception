@@ -9,11 +9,11 @@ build:
 	# docker build -t nginx ./nginx/
 	-docker network create wp_bridge
 	-docker volume create wpvolume
-	-docker volume create dbvolume
+	# -docker volume create dbvolume
 
 # Run the containers
 run:
-	docker run -d --rm            --name marianame        --volume dbvolume:/var/lib/mysql --network wp_bridge mariadb
+	docker run -d --rm            --name marianame        --volume ./volume:/var/lib/mysql --network wp_bridge mariadb
 	docker run -d --rm            --name wpname           --volume wpvolume:/var/www/html  --network wp_bridge wordpress
 	docker run -d --rm -p 443:443 --name nginx            --volume wpvolume:/var/www/html  --network wp_bridge nginx
 
@@ -24,7 +24,9 @@ stop:
 	-docker stop nginx
 	-docker network rm wp_bridge
 	-docker volume rm wpvolume
-	-docker volume rm dbvolume
+	# -docker volume rm dbvolume
+	sudo rm -rf ./volume
+	mkdir ./volume
 
 # Clean up the images
 clean:
