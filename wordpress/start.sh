@@ -1,8 +1,8 @@
 #!/bin/bash
 # Download and set up WordPress
-cd /var/www/html
+echo "Starting WordPress setup..."
 sed -i -e 's/.*listen = .*/listen = 9000/' /etc/php/7.4/fpm/pool.d/www.conf
-
+cd /var/www/html
 while ! mysqladmin ping -h marianame --silent; do
     echo "Waiting for MariaDB to be ready..."
     sleep 5
@@ -12,19 +12,19 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     wp core download --allow-root
 
     # Configure WordPress
-    wp core config --dbname=walo --dbuser=walo --dbpass=walo --dbhost=marianame:3306 --allow-root
-
+    wp core config --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --dbhost=$db_host --allow-root --path=/var/www/html
+    
     # Install WordPress
-    wp core install --url=localhost --title=Wordpress --admin_user=admin --admin_password=password --admin_email=moradabahni@gmail.com --allow-root
+    wp core install --url=$wp_url --title=$wp_title --admin_user=$admin_user --admin_password=$admin_pass --admin_email=$admin_email --allow-root 
 
     # create a user
-    wp user create --allow-root morad mauradabahani@gmail.com --user_pass=password --user_url=www.moradtest.com --allow-root
+    wp user create --allow-root $user $user_mail --user_pass=$user_pass --user_url=$user_url --role=$user_role --allow-root 
 fi
 # Create PHP runtime directory with correct permissions
-mkdir -p /run/php && chown -R www-data:www-data /run/php
+mkdir -p /run/php 
 
 # Update PHP-FPM configuration
-echo "updated"
+echo "finished WordPress setup..."
 
 # Start PHP-FPM service
 exec /usr/sbin/php-fpm7.4 -F

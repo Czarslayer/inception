@@ -1,0 +1,64 @@
+services:
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    container_name: marianame
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbvolume:/var/lib/mysql
+    networks:
+      - wp_bridge
+    env_file:
+      - ./.env
+  
+  wordpress:
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    container_name: wpname
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - wpvolume:/var/www/html
+    networks:
+      - wp_bridge
+    depends_on:
+      - mariadb
+    env_file:
+      - ./.env
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - 443:443
+    volumes:
+      - wpvolume:/var/www/html
+    networks:
+      - wp_bridge
+    depends_on:
+      - wordpress
+
+volumes:
+  dbvolume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mabahani/Desktop/niceinception/volume/db
+  wpvolume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mabahani/Desktop/niceinception/volume/www
+networks:
+  wp_bridge:
+    driver: bridge
