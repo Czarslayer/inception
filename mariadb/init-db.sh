@@ -1,14 +1,9 @@
 #!/bin/bash
 
-# Start MariaDB service
+echo "Starting MariaDB service---------------------"
 service mariadb start
+echo "finished MariaDB service---------------------"
 
-# Wait for MariaDB to be ready
-#  while ! mysqladmin ping -h localhost --silent; do
-#     echo "Waiting for MariaDB to be ready..."
-#     sleep 5
-# done
-# Initialize the database
 
 mariadb -e "CREATE DATABASE IF NOT EXISTS $db_name;"
 mariadb -e "CREATE USER IF NOT EXISTS '$db_user'@'%' IDENTIFIED BY '$db_pass';"
