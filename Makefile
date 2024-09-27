@@ -1,11 +1,11 @@
 all: 
-	docker compose up --build
+	docker compose -f ./srcs/docker-compose.yml up --build
 
 down:
-	docker compose down
+	docker compose -f ./srcs/docker-compose.yml down
 
 clean:
-	docker compose down
+	docker compose -f ./srcs/docker-compose.yml down
 	docker system prune -a -f
-	sudo rm -rf ./volume/www/*
-	sudo rm -rf ./volume/db/*
+	sudo rm -rf /home/mabahani/data/DB/*
+	sudo rm -rf /home/mabahani/data/WordPress/*
