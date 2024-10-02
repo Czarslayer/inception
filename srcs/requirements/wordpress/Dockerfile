@@ -1,6 +1,5 @@
 FROM debian:bullseye
 
-
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     php7.4 \
     php-fpm \
@@ -14,10 +13,9 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 COPY ./tools/start.sh /start.sh
+
 RUN chmod 777 /start.sh
 
-
 EXPOSE 9000
-
 
 ENTRYPOINT ["/start.sh"]
