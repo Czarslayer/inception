@@ -4,12 +4,10 @@ echo "Starting WordPress setup..."
 
 sed -i -e 's/.*listen = .*/listen = 9000/' /etc/php/7.4/fpm/pool.d/www.conf
 
-cd /var/www/html
-while ! mysqladmin ping -h mariadb --silent; do
-    echo "Waiting for MariaDB to be ready..."
-    sleep 5
-done
 echo "MariaDB is ready!"
+
+cd /var/www/html/
+
 if [ ! -f /var/www/html/wp-config.php ]; then
     wp core download --allow-root
 
@@ -20,7 +18,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     wp user create --allow-root $user $user_mail --user_pass=$user_pass --user_url=$user_url --role=$user_role --allow-root 
 fi
 
-mkdir -p /run/php 
+mkdir -p /run/php
 
 
 echo "finished WordPress setup..."

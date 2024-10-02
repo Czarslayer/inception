@@ -2,12 +2,10 @@ FROM debian:bullseye
 
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
-mariadb-client \
     php7.4 \
     php-fpm \
     php-mysql \
-    wget \
-    unzip 
+    wget 
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
@@ -22,4 +20,4 @@ RUN chmod 777 /start.sh
 EXPOSE 9000
 
 
-CMD ["/start.sh"]
+ENTRYPOINT ["/start.sh"]

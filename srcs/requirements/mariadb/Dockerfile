@@ -3,13 +3,7 @@ FROM debian:bullseye
 
 # Install MariaDB
 RUN apt-get  update -y && \
-    apt-get install -y mariadb-server && \
-    rm -rf /var/lib/apt/lists/*
-
-# Create the necessary directory for MariaDB
-RUN mkdir -p /var/run/mysqld && \
-    chown -R mysql:mysql /var/run/mysqld && \
-    chmod 777 /var/run/mysqld
+    apt-get install -y mariadb-server
 
 # Copy the initialization script
 COPY ./tools/init-db.sh /usr/local/bin/init-db.sh
@@ -19,4 +13,4 @@ RUN chmod +x /usr/local/bin/init-db.sh
 EXPOSE 3306
 
 # Start MariaDB using the init-db.sh script
-CMD ["sh","/usr/local/bin/init-db.sh"]
+ENTRYPOINT ["sh","/usr/local/bin/init-db.sh"]

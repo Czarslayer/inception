@@ -6,14 +6,17 @@ services:
     container_name: mariadb
     image: mariadb:1337
     restart: always
-    ports:
-      - "3306:3306"
     volumes:
       - dbvolume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5000000
     networks:
       - wp_bridge
     env_file:
-      - /home/mabahani/Desktop/test/.env
+      - .env
   
   wordpress:
     build:
@@ -22,23 +25,22 @@ services:
     container_name: wordpress
     image: wordpress:1337
     restart: always
-    ports:
-      - 9000:9000
     volumes:
       - wpvolume:/var/www/html
     networks:
       - wp_bridge
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     env_file:
-      - /home/mabahani/Desktop/test/.env
+      - .env
 
   nginx:
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
-    container_name: nginx
     image: nginx:1337
+    container_name: nginx
     restart: always
     ports:
       - 443:443
@@ -51,12 +53,14 @@ services:
 
 volumes:
   dbvolume:
+    name: dbvolume
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /home/mabahani/data/DB
   wpvolume:
+    name: wpvolume
     driver: local
     driver_opts:
       type: none
@@ -65,4 +69,5 @@ volumes:
 
 networks:
   wp_bridge:
+    name: wp_bridge
     driver: bridge
